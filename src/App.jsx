@@ -1,38 +1,21 @@
 import React, { Component } from 'react'
-import { Router, browserHistory, Route, Link } from 'react-router'
+import { Router, Route, Link } from 'react-router'
+import { Provider } from 'react-redux'
+
+import store from './store'
+import history from './history'
+import { Map } from './components'
 import './App.css'
 
-const Navbar = () => (
-  <div className="navbar">
-    <Link to="/">Feed</Link>
-    <Link to="/profile">Profile</Link>
-  </div>
-)
-
-const Template = ({ title }) => (
-  <div>
-    <Navbar />
-    <p className="page-info">
-      This is the { title } page.
-    </p>
-  </div>
-)
-
-const Feed = props => (
-  <Template title="Feed" />
-)
-
-const Profile = props => (
-  <Template title="Profile" />
-)
 
 class App extends Component {
   render() {
     return (
-      <Router history={browserHistory}>
-        <Route path="/" component={Feed} />
-        <Route path="/profile" component={Profile} />
-      </Router>
+      <Provider store={store}>
+        <Router history={history}>
+          <Map />
+        </Router>
+      </Provider>
     )
   }
 }
