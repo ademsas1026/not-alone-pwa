@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "not-alone-1949"
+    "default": "not-alone-1949",
+    "staging": "not-alone-1949"
   }
 }

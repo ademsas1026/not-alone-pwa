@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import { withRouter } from 'react-router-dom'
 
@@ -16,14 +16,16 @@ class MapView extends Component {
       center: [36.8, -98],
       zoom: 3.5,
       latitude: 0.00,
-      longitude: 0.00
+      longitude: 0.00,
+      sightings: []
     }
   }
-
+  
   render() {
+    console.log('this.state: ', this.state)
     return (
       <div>
-        
+        <Typography variant="display1">a map</Typography>
       </div>
     )
   }
