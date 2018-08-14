@@ -1,5 +1,6 @@
-{
-"sightings": [
+// {
+// "sightings": 
+module.exports = [
   { 
   "date" : "10/10/1949",
   "time" : "20:30",
@@ -9177,5 +9178,5 @@
         "longitude" : -79.1425 
       }
   ]
-}
+// }
 

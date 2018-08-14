@@ -8,42 +8,17 @@ import history from './history'
 import { Map } from './components'
 import './App.css'
 import firebaseConfigs from './secrets/firebase.config'
-const { generateClusters } = require('./scripts/main')
 
 firebase.initializeApp(firebaseConfigs)
 
 
-class App extends Component {
-  constructor(){
-    super()
-    this.state = {
-      sightings: []
-    }
-  }
+const App = () => (
+    <Provider store={store}>
+      <Router history={history}>
+        <Map dbRef={firebase.database().ref("clusters")}/>
+      </Router>
+    </Provider>
+  )
 
-  componentDidMount(){
-    const dbRef = firebase.database().ref("staging")
-    console.log('this is db ref: ', dbRef.child("sightings"), 'this is firebase: ', firebase)
-    dbRef.once('value').then(async snap => {
-      console.log("snap.val sightings: ", snap.val().sightings)
-      const clusters = await generateClusters(snap.val().sightings)
-      // console.log('md', clusters)
-      // let newCluster
-      // clusters.forEach(cluster => {
-      //   newCluster = dbRef.child("clusters").push()
-      //   newCluster.set(cluster)
-      // })
-    })
-  }
-  render() {
-    return (
-      <Provider store={store}>
-        <Router history={history}>
-          <Map />
-        </Router>
-      </Provider>
-    )
-  }
-}
 
 export default App
