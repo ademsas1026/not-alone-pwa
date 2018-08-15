@@ -4,6 +4,7 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 
 import { markerIcon, loadingIcon, errorIcon } from '../mapElements'
 import { chooseCluster } from '../data/utils'
+import { Chart } from './index'
 
 class MapView extends Component {
   constructor() {
@@ -65,8 +66,9 @@ class MapView extends Component {
                 </Popup>
               </Marker>
           }
-
-         
+          { Array.isArray(sightings) && sightings.length
+            && <Chart sightings={sightings} />
+          }
         </Map>
       </div>
     )

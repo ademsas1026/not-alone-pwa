@@ -1,5 +1,5 @@
 body {
-  font-family: 'Karla', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #mapid {
@@ -45,5 +45,13 @@ body {
 
 #popup {
   color: black;
+}
+
+/* chart styling */
+
+.graph {
+  z-index: 100000;
+  position: absolute;
+  top: 20vh;
 }
 
