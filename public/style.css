@@ -33,6 +33,16 @@ body {
   padding-left: 3em
 }
 
+#mapHeader {
+  position: absolute;
+  z-index: 1000;
+}
+
+#mapHeader h3 {
+  position: relative;
+  left: 2vw;
+}
+
 /* #marker {
   z-index: 100000000;
 } */

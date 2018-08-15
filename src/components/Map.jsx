@@ -38,11 +38,13 @@ class MapView extends Component {
           zoom={zoom}
           onclick={this.loadCluster}
           id="actualMap"
-        >
-          <Typography variant="display1" style={{zIndex: '1000', color: '#fff' }}>Not Alone</Typography>
-          <Typography variant="subheading" style={{zIndex: '1000', color: '#fff', position: 'relative', left: '2.5vw', top: '1vh'}}>An Interactive Visualization of UFO Sightings in the US</Typography>
-          <Typography variant="subheading" style={{zIndex: '1000', color: '#fff', position: 'relative', left: '2.5vw', top: '2vh'}}>1949 - 2013</Typography>
-          <Typography variant="subheading" style={{zIndex: '1000', color: '#fff', position: 'relative', left: '2.5vw', top: '4vh'}}>click map...if you dare</Typography>
+        > 
+          <div id="mapHeader">
+            <Typography variant="display1" style={{zIndex: '1000', color: '#fff' }}>Not Alone</Typography>
+            <Typography variant="subheading" style={{zIndex: '1000', color: '#fff', position: 'absolute', top: '10vh'}}>An Interactive Visualization of UFO Sightings</Typography>
+            <Typography variant="subheading" style={{zIndex: '1000', color: '#fff', position: 'absolute', top: '15vh'}}>US, 1949 - 2013</Typography>
+            <Typography variant="subheading" style={{zIndex: '1000', color: '#fff', position: 'absolute', top: '20vh'}}>click map...if you dare</Typography>
+          </div>
           <TileLayer  
             url="https://api.mapbox.com/styles/v1/ademsas/cjggt8ilb002k2rqw269apfqt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWRlbXNhcyIsImEiOiJjamdncThncmIwMGw4MnhxbWNybnV1cDMwIn0.DmUIWxfIPjHyD-nu9GVqrw"
             attribution="data courtesy of the National UFO Reporting Center (NUFORC)"
