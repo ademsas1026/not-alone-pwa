@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Button, Typography } from '@material-ui/core'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
-import { withRouter } from 'react-router-dom'
 
 import { markerIcon, loadingIcon, errorIcon } from '../mapElements'
 import { chooseCluster } from '../data/utils'
@@ -33,37 +31,40 @@ class MapView extends Component {
   }
   
   render() {
-    console.log('this.state: ', this.state, 'map props: ', this.props)
-    const { center, zoom, latitude, longitude } = this.state
+    // console.log('this.state: ', this.state, 'map props: ', this.props)
+    const { center, zoom, latitude, longitude, sightings } = this.state
+    console.log('this is the cluster of sightings on state: ', sightings)
     return (
       <div id="mapid">
         <Map 
-          style={{height: "100vh", width: "55%", zIndex: '500'}}
+          style={{height: "100vh", width: "100%"}}
           center={center}
           zoom={zoom}
           onclick={this.loadCluster}
           id="actualMap"
         >
+          <h1 style={{zIndex: '1000', color: '#fff'}}>Not Alone</h1>
+          <h2 style={{zIndex: '1000', color: '#fff'}}>An Interactive Visualization of UFO Sightings in the US</h2>
+          <h3 style={{zIndex: '1000', color: '#fff'}}>1949 - 2013</h3>
+          <h3 style={{zIndex: '1000', color: '#fff'}}>click map...if you dare</h3>
           <TileLayer  
             url="https://api.mapbox.com/styles/v1/ademsas/cjggt8ilb002k2rqw269apfqt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWRlbXNhcyIsImEiOiJjamdncThncmIwMGw4MnhxbWNybnV1cDMwIn0.DmUIWxfIPjHyD-nu9GVqrw"
             attribution="data courtesy of the National UFO Reporting Center (NUFORC)"
           />
+          { sightings.length
+            && sightings.map(((sighting, index) => (
+              <Marker key={index} position={[sighting.latitude, sighting.longitude]} icon={markerIcon} id="marker">
+                <Popup >
+                  <span id="popup">{`${sighting.city},  ${sighting.state}`}<br />{sighting.comments}<br/>{sighting.date}</span>
+                </Popup>
+              </Marker>
+            )))
+          }
         </Map>
       </div>
     )
   }
 }
 
-/*--- Container ---*/
-const mapState = state => ({
-  sightings: state.sightings.sightings,
-  loading: state.sightings.isLoading,
-  error: state.sightings
-})
 
-const mapDispatch = dispatch => ({
-  // loadSightingsByCluster(latitude, longitude) {
-  //   dispatch(loadSightingsByCluster(latitude, longitude))
-  // }
-})
-export default withRouter(connect(mapState, mapDispatch)(MapView))
+export default MapView

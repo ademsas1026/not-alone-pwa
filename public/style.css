@@ -1,0 +1,44 @@
+body {
+  font-family: 'Karla', sans-serif;
+}
+
+#mapid {
+  height: 100%;
+  display: flex;
+  background-color: #292929;
+  font-family: 'Karla', sans-serif;
+}
+
+#actualMap {
+  display: flex;
+  flex-direction: column;
+  color: aliceblue;
+  font-family: 'Karla', sans-serif;
+
+}
+
+#actualMap h1 {
+  width: 150%;
+  padding-top: 1em;
+  padding-left: 2.1em;
+}
+
+#actualMap h2 {
+  width: 150%;
+  padding-left: 2.5em
+}
+
+#actualMap h3 {
+  width: 150%;
+  padding-left: 3em
+}
+
+/* #marker {
+  z-index: 100000000;
+} */
+
+#popup {
+  color: black;
+
+}
+

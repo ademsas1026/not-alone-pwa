@@ -14,7 +14,6 @@ export const chooseCluster = (clusters, longitude, latitude) => {
     maxLat = cluster.latitudes.length > 2 ? Math.max(...cluster.latitudes) : Math.max(cluster.latitudes);
     minLng = cluster.longitudes.length > 2 ? Math.min(...cluster.longitudes) : Math.min(cluster.longitudes);
     maxLng = cluster.latitudes.length > 2 ? Math.max(...cluster.longitudes) : Math.max(cluster.longitudes);
-    console.log(minLat, minLng, maxLat, maxLng)
     if(minLat <= latitude && minLng <= longitude){
       if(latitude < maxLat && longitude < maxLng){
         sightings = clusters[cluster.clusterId];
