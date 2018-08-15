@@ -33,7 +33,7 @@ class MapView extends Component {
   render() {
     // console.log('this.state: ', this.state, 'map props: ', this.props)
     const { center, zoom, latitude, longitude, sightings } = this.state
-    console.log('this is the cluster of sightings on state: ', sightings)
+    console.log('this is the cluster of sightings on state: ', typeof sightings)
     return (
       <div id="mapid">
         <Map 
@@ -51,7 +51,7 @@ class MapView extends Component {
             url="https://api.mapbox.com/styles/v1/ademsas/cjggt8ilb002k2rqw269apfqt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWRlbXNhcyIsImEiOiJjamdncThncmIwMGw4MnhxbWNybnV1cDMwIn0.DmUIWxfIPjHyD-nu9GVqrw"
             attribution="data courtesy of the National UFO Reporting Center (NUFORC)"
           />
-          { sightings.length
+          { Array.isArray(sightings) && sightings.length
             && sightings.map(((sighting, index) => (
               <Marker key={index} position={[sighting.latitude, sighting.longitude]} icon={markerIcon} id="marker">
                 <Popup >
@@ -59,6 +59,13 @@ class MapView extends Component {
                 </Popup>
               </Marker>
             )))
+          }
+          { !Array.isArray(sightings)
+            && <Marker position={[latitude, longitude]} icon={errorIcon}>
+                <Popup>
+                  <span id="popup">We are all around you...just not here</span>
+                </Popup>
+              </Marker>
           }
         </Map>
       </div>
