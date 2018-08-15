@@ -65,6 +65,8 @@ class MapView extends Component {
                 </Popup>
               </Marker>
           }
+
+         
         </Map>
       </div>
     )
