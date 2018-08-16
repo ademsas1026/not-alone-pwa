@@ -15,7 +15,7 @@ firebase.initializeApp(firebaseConfigs)
 const App = () => (
     <Provider store={store}>
       <Router history={history}>
-        <Map dbRef={firebase.database().ref("clusters")}/>
+        <Map dbRef={firebase.database()}/>
       </Router>
     </Provider>
   )

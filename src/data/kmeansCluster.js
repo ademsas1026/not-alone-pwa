@@ -1,6 +1,6 @@
 // import cluster from 'k-means'
 const cluster = require('k-means')
-const sightings = require('./seed')
+const sightings = require('./cleanSightings')
 const fs = require('fs')
 
 const kmeans = (...args) => 
@@ -44,7 +44,7 @@ const generateClusters = async sightings => {
 generateClusters(sightings)
   .then(clusters => 
     fs.writeFile(
-      'src/scripts/seedClusters.json',
+      'src/data/seedClusters.json',
       JSON.stringify(clusters),
       err => {
         if (err) throw err

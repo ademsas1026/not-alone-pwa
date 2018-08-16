@@ -1,4 +1,4 @@
-const sightings = require('./ufo.js')
+const sightings = require('./rawSightings.js')
 
 let date
 let time
@@ -38,7 +38,7 @@ const sightingsData = sightings.map(sighting => {
 
 //to be used once cluster is selected on map
 //calculate most common words
-const mostCommonWords = (sightings) => {
+const mostCommonWords = sightings => {
   let commentsFromSightings = sightings.map(sighting => sighting.comments)
   let frequency = {}
   //creates an array of arrays, each nested array contains a comma separated list generated from commentsFromSightings

@@ -3,8 +3,9 @@ import { Button, Typography } from '@material-ui/core'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 
 import { markerIcon, loadingIcon, errorIcon } from '../mapElements'
-import { chooseCluster } from '../data/utils'
-import { Chart } from './index'
+import { chooseCluster, chooseMonthCluster, months } from '../data/utils'
+import { Chart, MapHeader, Menu } from './index'
+import { mapStyles } from './styleUtils'
 
 class MapView extends Component {
   constructor() {
@@ -14,38 +15,66 @@ class MapView extends Component {
       zoom: 3.5,
       latitude: 0.00,
       longitude: 0.00,
-      sightings: []
+      sightings: [],
+      chartInView: false,
+      selectByMonth: false,
+      monthClusters: []
     }
     this.loadCluster = this.loadCluster.bind(this)
+    this.loadMonthCluster = this.loadMonthCluster.bind(this)
+    this.showChart = this.showChart.bind(this)
+    this.selectByMonth = this.selectByMonth.bind(this)
+  }
+
+  async componentDidMount() {
+    const { dbRef } = this.props
+    if (dbRef) {
+      const snap = await dbRef.ref("clusters").once('value')
+      await this.setState({ monthClusters: snap.val().monthClusters }) 
+    }
   }
 
   async loadCluster(event) {
     await this.setState({ latitude: event.latlng.lat, longitude: event.latlng.lng })
     const { dbRef } = this.props
     if (dbRef) {
-      const snap = await dbRef.once('value')
+      const snap = await dbRef.ref("clusters").once('value')
       const cluster = chooseCluster(snap.val(), this.state.longitude, this.state.latitude )
       await this.setState({ sightings: cluster }) 
     }
   }
+
+  async loadMonthCluster(month, event) {
+    const { dbRef } = this.props
+    if (dbRef) {
+      const snap = await dbRef.ref("monthClusters").once('value')
+      const monthCluster = chooseMonthCluster(month, snap.val())
+      await this.setState({ sightings: monthCluster })
+    }
+  }
+
+  async showChart() {
+    await this.setState(prevState => ({ chartInView: !prevState.chartInView }))
+  }
+
+  async selectByMonth() {
+    await this.setState(prevState => ({ selectByMonth: !prevState.selectByMonth }))
+  }
+
   
   render() {
-    const { center, zoom, latitude, longitude, sightings } = this.state
+    const { center, zoom, latitude, longitude, sightings, chartInView, selectByMonth, monthClusters } = this.state
+    
     return (
       <div id="mapid">
         <Map 
-          style={{height: "100vh", width: "100%"}}
+          style={ chartInView ? mapStyles.chartInView : mapStyles.noChart }
           center={center}
           zoom={zoom}
           onclick={this.loadCluster}
           id="actualMap"
         > 
-          <div id="mapHeader">
-            <Typography variant="display1" style={{zIndex: '1000', color: '#fff' }}>Not Alone</Typography>
-            <Typography variant="subheading" style={{zIndex: '1000', color: '#fff', position: 'absolute', top: '10vh'}}>An Interactive Visualization of UFO Sightings</Typography>
-            <Typography variant="subheading" style={{zIndex: '1000', color: '#fff', position: 'absolute', top: '15vh'}}>US, 1949 - 2013</Typography>
-            <Typography variant="subheading" style={{zIndex: '1000', color: '#fff', position: 'absolute', top: '20vh'}}>click map...if you dare</Typography>
-          </div>
+          <MapHeader />
           <TileLayer  
             url="https://api.mapbox.com/styles/v1/ademsas/cjggt8ilb002k2rqw269apfqt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWRlbXNhcyIsImEiOiJjamdncThncmIwMGw4MnhxbWNybnV1cDMwIn0.DmUIWxfIPjHyD-nu9GVqrw"
             attribution="data courtesy of the National UFO Reporting Center (NUFORC)"
@@ -65,11 +94,13 @@ class MapView extends Component {
                   <span id="popup">We are all around you...just not here</span>
                 </Popup>
               </Marker>
-          }
-          { Array.isArray(sightings) && sightings.length
-            && <Chart sightings={sightings} />
-          }
+          } 
         </Map>
+        { sightings.length && <Button onClick={this.showChart} style={mapStyles.showChartBtn}>Word Frequency Per Cluster</Button> }
+        <Menu selectByMonth={this.selectByMonth} loadMonthCluster={this.loadMonthCluster} monthClusters={monthClusters} />
+        { Array.isArray(sightings) && sightings.length && chartInView
+            && <Chart sightings={sightings} showChart={this.showChart}/>
+          }
       </div>
     )
   }

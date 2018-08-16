@@ -1,21 +1,20 @@
 body {
   font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
 }
 
 #mapid {
   height: 100%;
   display: flex;
-  background-color: #292929;
-  font-family: 'Karla', sans-serif;
 }
 
 #actualMap {
   display: flex;
   flex-direction: column;
   color: aliceblue;
-  font-family: 'Karla', sans-serif;
+  background-color: #292929;
+};
 
-}
 
 #actualMap h1 {
   width: 150%;
@@ -52,6 +51,10 @@ body {
 .graph {
   z-index: 100000;
   position: absolute;
-  top: 20vh;
+  top: 5vh;
+  left: 5vw;
+  height: 90vh;
+  width: 90vw;
 }
+
 
