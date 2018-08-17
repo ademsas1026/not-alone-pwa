@@ -1,4 +1,4 @@
-export const chooseCluster = (clusters, longitude, latitude) => {
+export const chooseKmeansCluster = (clusters, longitude, latitude) => {
   const allLongitudesAndLatitudes = []
   let sightings = [], minLat, maxLat, minLng, maxLng
   clusters.forEach((cluster, clusterId) => {
@@ -23,4 +23,11 @@ export const chooseCluster = (clusters, longitude, latitude) => {
 
   if (sightings.length) return sightings
   else return new Error('no cluster found')
+}
+
+export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+export const chooseMonthCluster = (month, monthClusters) => {
+  const indexOfCluster = months.indexOf(month)
+  return monthClusters[indexOfCluster]
 }

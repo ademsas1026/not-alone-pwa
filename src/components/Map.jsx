@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { connect, withRouter } from 'react-redux'
 import { Button, Typography } from '@material-ui/core'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 
 import { markerIcon, loadingIcon, errorIcon } from '../mapElements'
-import { chooseCluster } from '../data/utils'
+import { loadKmeansClusters, loadMonthClusters, chooseCluster } from '../store'
 
 class MapView extends Component {
   constructor() {
@@ -12,10 +13,15 @@ class MapView extends Component {
       center: [36.8, -98],
       zoom: 3.5,
       latitude: 0.00,
-      longitude: 0.00,
-      sightings: []
+      longitude: 0.00
     }
     this.loadCluster = this.loadCluster.bind(this)
+  }
+
+  async componentDidMount(){
+    const { loadMonthClusters, loadKmeansClusters } = this.props
+    await loadMonthClusters()
+    await loadKmeansClusters()
   }
 
   async loadCluster(event) {
@@ -29,7 +35,8 @@ class MapView extends Component {
   }
   
   render() {
-    const { center, zoom, latitude, longitude, sightings } = this.state
+    const { center, zoom, latitude, longitude } = this.state
+    const { cluster } = this.props
     return (
       <div id="mapid">
         <Map 
@@ -73,5 +80,22 @@ class MapView extends Component {
   }
 }
 
+const mapState = state => ({
+  selectedCluster: state.selectedCluster.selectedCluster,
+  error: state.selectedCluster.error,
+  isLoading: state.selectedCluster.isLoading
+})
 
-export default MapView
+const mapDispatch = dispatch => ({
+  chooseCluster(clusterType, month = null, latitude = null, longitude = null){
+    dispatch(chooseCluster(clusterType, month, latitude, longitude))
+  },
+  loadKmeansClusters(){
+    dispatch(loadKmeansClusters())
+  },
+  loadMonthClusters(){
+    dispatch(loadMonthClusters())
+  }
+})
+
+export default connect(mapState, mapDispatch)(MapView)

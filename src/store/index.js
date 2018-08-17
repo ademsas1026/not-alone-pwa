@@ -2,10 +2,16 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import  { createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import sightings from './sightings'
+import firebase from 'firebase'
 
+import firebaseConfigs from './secrets/firebase.config'
+import kmeansClusters from './kmeansClusters'
+import monthClusters from './monthClusters'
 
-const reducer = combineReducers({ sightings })
+firebase.initializeApp(firebaseConfigs)
+export const firebaseDatabase = firebase.database()
+
+const reducer = combineReducers({ kmeansClusters, monthClusters, selectedCluster, firebaseDatabase })
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
@@ -16,5 +22,6 @@ const store = createStore(reducer, middleware)
 
 //export all desired functions from store
 export default store
-export * from './sightings'
+export * from './kmeansClusters'
+export * from './monthClusters'
 
