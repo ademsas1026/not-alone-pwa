@@ -41,7 +41,7 @@ export const loadMonthClusters = () => async dispatch => {
   try {
     dispatch(noError())
     dispatch(isLoading())
-    const snapshot = await firebaseDatabase.ref("monthClusters")
+    const snapshot = await firebaseDatabase.ref("monthClusters").once('value')
     const monthClusters = snapshot.val().monthClusters
     dispatch(getMonthClusters(monthClusters))
     dispatch(notLoading())

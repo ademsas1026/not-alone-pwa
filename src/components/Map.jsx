@@ -13,7 +13,9 @@ class MapView extends Component {
       center: [36.8, -98],
       zoom: 3.5,
       latitude: 0.00,
-      longitude: 0.00
+      longitude: 0.00,
+      clusterType: 'kmeans',
+      month: 'January'
     }
     this.loadCluster = this.loadCluster.bind(this)
   }
@@ -26,17 +28,24 @@ class MapView extends Component {
 
   async loadCluster(event) {
     await this.setState({ latitude: event.latlng.lat, longitude: event.latlng.lng })
-    const { dbRef } = this.props
-    if (dbRef) {
-      const snap = await dbRef.once('value')
-      const cluster = chooseCluster(snap.val(), this.state.longitude, this.state.latitude )
-      await this.setState({ sightings: cluster }) 
+    const { clusterType, month } = this.state
+    const { chooseCluster, kmeansClusters, monthClusters } = this.props
+    switch(clusterType){
+      case 'kmeans':
+        await chooseCluster(kmeansClusters, clusterType, null, this.state.longitude, this.state.latitude)
+        break
+      case 'month':
+        await chooseCluster(monthClusters, clusterType, month, null, null)
+        break
+      default:
+        return null
     }
+  
   }
   
   render() {
     const { center, zoom, latitude, longitude } = this.state
-    const { cluster } = this.props
+    const { selectedCluster } = this.props
     return (
       <div id="mapid">
         <Map 
@@ -56,8 +65,8 @@ class MapView extends Component {
             url="https://api.mapbox.com/styles/v1/ademsas/cjggt8ilb002k2rqw269apfqt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWRlbXNhcyIsImEiOiJjamdncThncmIwMGw4MnhxbWNybnV1cDMwIn0.DmUIWxfIPjHyD-nu9GVqrw"
             attribution="data courtesy of the National UFO Reporting Center (NUFORC)"
           />
-          { Array.isArray(sightings) && sightings.length
-            && sightings.map(((sighting, index) => (
+          { selectedCluster.length
+            && selectedCluster.map(((sighting, index) => (
               <Marker key={index} position={[sighting.latitude, sighting.longitude]} icon={markerIcon} id="marker">
                 <Popup >
                   <span id="popup">{`${sighting.city},  ${sighting.state}`}<br />{sighting.comments}<br/>{sighting.date}</span>
@@ -65,7 +74,7 @@ class MapView extends Component {
               </Marker>
             )))
           }
-          { !Array.isArray(sightings)
+          { !Array.isArray(selectedCluster)
             && <Marker position={[latitude, longitude]} icon={errorIcon}>
                 <Popup>
                   <span id="popup">We are all around you...just not here</span>
@@ -82,13 +91,19 @@ class MapView extends Component {
 
 const mapState = state => ({
   selectedCluster: state.selectedCluster.selectedCluster,
-  error: state.selectedCluster.error,
-  isLoading: state.selectedCluster.isLoading
+  singleClusterError: state.selectedCluster.error,
+  singleClusterLoading: state.selectedCluster.isLoading,
+  kmeansClusters: state.kmeansClusters.kmeansClusters,
+  kmeansClustersError: state.kmeansClusters.error,
+  kmeansClustersLoading: state.kmeansClusters.isLoading,
+  monthClusters: state.monthClusters.monthClusters,
+  monthClustersError: state.monthClusters.error,
+  monthClustersLoading: state.monthClusters.isLoading
 })
 
 const mapDispatch = dispatch => ({
-  chooseCluster(clusterType, month = null, latitude = null, longitude = null){
-    dispatch(chooseCluster(clusterType, month, latitude, longitude))
+  chooseCluster(clusters, clusterType, month = null, latitude = null, longitude = null){
+    dispatch(chooseCluster(clusters, clusterType, month, latitude, longitude))
   },
   loadKmeansClusters(){
     dispatch(loadKmeansClusters())

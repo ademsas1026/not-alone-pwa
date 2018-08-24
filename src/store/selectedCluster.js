@@ -1,4 +1,3 @@
-import { monthClusters, kmeansClusters } from './index'
 import { selectMonthCluster, chooseMonthCluster, chooseKmeansCluster } from '../data/utils'
 
 /*--- Initial State ---*/
@@ -37,13 +36,15 @@ const noError = () => ({
   type: NO_ERROR
 })
 /*--- Thunks ---*/
-export const selectCluster = (clusterType, month = null, latitude = null, longitude = null) => async dispatch => {
+export const chooseCluster = (clusters, clusterType, month, longitude, latitude) => async dispatch => {
+  console.log('the params: ', clusters, clusterType, month, latitude, 'longitude', longitude)
   try {
     dispatch(noError())
     dispatch(isLoading())
+    console.log('choosing cluster! ', clusters)
     const cluster = clusterType === 'month' 
-      ? chooseMonthCluster(monthClusters, month)
-      : chooseKmeansCluster(kmeansClusters, latitude, longitude)
+      ? chooseMonthCluster(clusters, month)
+      : chooseKmeansCluster(clusters, longitude, latitude)
     dispatch(notLoading())
     dispatch(getCluster(cluster))
   } catch (err) {

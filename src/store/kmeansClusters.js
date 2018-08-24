@@ -41,8 +41,8 @@ export const loadKmeansClusters = () => async dispatch => {
   try {
     dispatch(noError())
     dispatch(isLoading())
-    const snapshot = await firebaseDatabase.ref("kmeansClusters")
-    const kmeansClusters = snapshot.val().clusters
+    const snapshot = await firebaseDatabase.ref("kmeansClusters").child("clusters").once('value')
+    const kmeansClusters = snapshot.val()
     dispatch(getKmeansClusters(kmeansClusters))
     dispatch(notLoading())
   } catch (err) {

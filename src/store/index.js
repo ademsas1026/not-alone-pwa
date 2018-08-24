@@ -4,9 +4,10 @@ import thunkMiddleware from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import firebase from 'firebase'
 
-import firebaseConfigs from './secrets/firebase.config'
+import firebaseConfigs from '../secrets/firebase.config'
 import kmeansClusters from './kmeansClusters'
 import monthClusters from './monthClusters'
+import selectedCluster from './selectedCluster'
 
 firebase.initializeApp(firebaseConfigs)
 export const firebaseDatabase = firebase.database()
@@ -22,6 +23,9 @@ const store = createStore(reducer, middleware)
 
 //export all desired functions from store
 export default store
+export { default as kmeansClusters } from './kmeansClusters'
 export * from './kmeansClusters'
+export { default as monthClusters } from './monthClusters'
 export * from './monthClusters'
+export * from './selectedCluster'
 
