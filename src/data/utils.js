@@ -29,7 +29,7 @@ export const chooseKmeansCluster = (clusters, longitude, latitude) => {
 
 export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
-export const chooseMonthCluster = (month, monthClusters) => {
+export const chooseMonthCluster = (monthClusters, month) => {
   const indexOfCluster = months.indexOf(month)
   return monthClusters[indexOfCluster]
 }

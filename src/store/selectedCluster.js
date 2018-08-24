@@ -45,6 +45,7 @@ export const chooseCluster = (clusters, clusterType, month, longitude, latitude)
     const cluster = clusterType === 'month' 
       ? chooseMonthCluster(clusters, month)
       : chooseKmeansCluster(clusters, longitude, latitude)
+    if (clusterType === 'month') console.log('the motnh cluster: ', cluster)
     dispatch(notLoading())
     dispatch(getCluster(cluster))
   } catch (err) {
