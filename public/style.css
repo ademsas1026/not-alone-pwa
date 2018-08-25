@@ -5,6 +5,7 @@ body {
 #mapid {
   height: 100%;
   display: flex;
+  flex-direction: column;
   background-color: #292929;
   font-family: 'Karla', sans-serif;
 }
@@ -33,14 +34,23 @@ body {
   padding-left: 3em
 }
 
+#navbar {
+  display: flex;
+  justify-content: space-around;
+  height: 20vh;
+  border-bottom: 0.1em solid white;
+}
+
 #mapHeader {
   position: absolute;
   z-index: 1000;
+  align-self: center;
+  justify-self: center;
 }
 
-#mapHeader h3 {
-  position: relative;
-  left: 2vw;
+#navButtons {
+  align-self: center;
+  justify-self: flex-start;
 }
 
 #popup {

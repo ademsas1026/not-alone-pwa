@@ -8,11 +8,12 @@ import firebaseConfigs from '../secrets/firebase.config'
 import kmeansClusters from './kmeansClusters'
 import monthClusters from './monthClusters'
 import selectedCluster from './selectedCluster'
+import accessUserLocation from './userLocation'
 
 firebase.initializeApp(firebaseConfigs)
 export const firebaseDatabase = firebase.database()
 
-const reducer = combineReducers({ kmeansClusters, monthClusters, selectedCluster, firebaseDatabase })
+const reducer = combineReducers({ kmeansClusters, monthClusters, selectedCluster, firebaseDatabase, accessUserLocation })
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
@@ -28,4 +29,5 @@ export * from './kmeansClusters'
 export { default as monthClusters } from './monthClusters'
 export * from './monthClusters'
 export * from './selectedCluster'
+export * from './userLocation'
 

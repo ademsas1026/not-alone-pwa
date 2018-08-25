@@ -4,10 +4,12 @@ import { selectMonthCluster, chooseMonthCluster, chooseKmeansCluster } from '../
 const initialState = {
   isLoading: false,
   error: false,
+  clusterType: 'kmeans',
   selectedCluster: []
 }
 
 /*--- Action Types ---*/
+const CLUSTER_TYPE = 'CLUSTER_TYPE'
 const GET_CLUSTER = 'GET_CLUSTER'
 const GOT_ERROR = 'GOT_ERROR'
 const NO_ERROR = 'NO_ERROR'
@@ -15,6 +17,11 @@ const IS_LOADING = 'IS_LOADING'
 const NOT_LOADING = 'NOT_LOADING'
 
 /*--- Action Creators ---*/
+export const changeClusterType = clusterType => ({
+  type: CLUSTER_TYPE,
+  clusterType
+})
+
 const getCluster = selectedCluster => ({
   type: GET_CLUSTER,
   selectedCluster
@@ -37,15 +44,12 @@ const noError = () => ({
 })
 /*--- Thunks ---*/
 export const chooseCluster = (clusters, clusterType, month, longitude, latitude) => async dispatch => {
-  console.log('the params: ', clusters, clusterType, month, latitude, 'longitude', longitude)
   try {
     dispatch(noError())
     dispatch(isLoading())
-    console.log('choosing cluster! ', clusters)
     const cluster = clusterType === 'month' 
       ? chooseMonthCluster(clusters, month)
       : chooseKmeansCluster(clusters, longitude, latitude)
-    if (clusterType === 'month') console.log('the motnh cluster: ', cluster)
     dispatch(notLoading())
     dispatch(getCluster(cluster))
   } catch (err) {
@@ -57,17 +61,19 @@ export const chooseCluster = (clusters, clusterType, month, longitude, latitude)
 /*--- Reducer ---*/
 export default function (state = initialState, action) {
   switch(action.type) {
+    case CLUSTER_TYPE:
+      return { ...state, clusterType: action.clusterType }
     case GET_CLUSTER:
-        return {...state, selectedCluster: action.selectedCluster }
-      case IS_LOADING: 
-        return {...state, isLoading: true}
-      case NOT_LOADING:
-        return {...state, isLoading: false}
-      case GOT_ERROR:
-        return {...state, error: true}
-      case NO_ERROR:
-        return {...state, error: false}
-    default:
-      return state
+      return {...state, selectedCluster: action.selectedCluster }
+    case IS_LOADING: 
+      return {...state, isLoading: true}
+    case NOT_LOADING:
+      return {...state, isLoading: false}
+    case GOT_ERROR:
+      return {...state, error: true}
+    case NO_ERROR:
+      return {...state, error: false}
+  default:
+    return state
   }
 }
