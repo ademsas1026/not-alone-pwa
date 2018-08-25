@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Button, Typography } from '@material-ui/core'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 
-import { markerIcon, loadingIcon, errorIcon } from '../mapElements'
+import { markerIcon, loadingIcon, errorIcon, latlng } from '../mapElements'
 import { getLocation } from './componentUtils'
 import { loadKmeansClusters, loadMonthClusters, chooseCluster, changeClusterType, allowAccessToLocation } from '../store'
 import { Navbar } from './index'
@@ -33,13 +33,13 @@ class MapView extends Component {
     const [latitude, longitude] = event.latlng 
       ? [event.latlng.lat, event.latlng.lng] // from map click handler
       : [event.latitude, event.longitude] // from window.localStorage
-    console.log('lat and lng', latitude, longitude)
     await this.setState({ latitude, longitude })
     const { month } = this.state
     const { chooseCluster, kmeansClusters, monthClusters, clusterType } = this.props
     switch(clusterType){
       case 'kmeans':
         await chooseCluster(kmeansClusters, clusterType, null, this.state.longitude, this.state.latitude)
+        await this.setState({ center: [latitude, longitude], zoom: 6})
         break
       case 'month':
         await chooseCluster(monthClusters, clusterType, month, null, null)
