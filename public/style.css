@@ -60,9 +60,13 @@ body {
 
 
 .graph {
-  height: 40vh;
-  width: 40vw;
+  height: 100vh;
+  width: 100vw;
   align-self: center;
   display: flex;
+}
+
+.chartHeader {
+  display: flex
 }
 
