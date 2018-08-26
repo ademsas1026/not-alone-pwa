@@ -19,11 +19,12 @@ export default class LongMenu extends Component {
             style: {
               maxHeight: ITEM_HEIGHT * 4.5,
               width: 200,
+              zIndex: '5000'
             },
           }}
         >
           {months.map(month => (
-            <MenuItem key={month} selected={month === 'January'} onClick={() => closeMenu(month)}>
+            <MenuItem style={{zIndex: '5000'}} key={month} selected={month === 'January'} onClick={() => closeMenu(month)}>
               {month}
             </MenuItem>
           ))}

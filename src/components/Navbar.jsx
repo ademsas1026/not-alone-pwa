@@ -53,11 +53,11 @@ class Navbar extends Component {
               this.openMenu(event)
               changeClusterType('month', false)
             }} 
-            style={{zIndex: '5000', color: '#fff'}}
+            style={{zIndex: '2000', color: '#fff'}}
             aria-label="More"
             aria-owns={open ? 'long-menu' : null}
             >
-            See Month Clusters
+            Monthly Sightings
           </Button>
           <Menu anchorEl={anchorEl} open={open} closeMenu={this.closeMenu} />
           { accessUserLocation && <Button onClick={disableGeolocation} style={{color: '#fff'}}>Disable Geolocation</Button> } 
