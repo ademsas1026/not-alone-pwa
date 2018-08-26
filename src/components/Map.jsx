@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Button, Typography } from '@material-ui/core'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 
-import { markerIcon, loadingIcon, errorIcon, latlng } from '../mapElements'
+import { markerIcon, errorIcon, bounds } from '../mapElements'
 import { getLocation } from './componentUtils'
 import { loadKmeansClusters, loadMonthClusters, chooseCluster, changeClusterType, allowAccessToLocation } from '../store'
-import { Navbar } from './index'
+import { Navbar, Chart } from './index'
+
+
 
 class MapView extends Component {
   constructor() {
@@ -16,10 +19,15 @@ class MapView extends Component {
       zoom: 3.5,
       latitude: 0.00,
       longitude: 0.00,
-      month: 'January'
+      month: 'January',
+      showChart: false,
+      bounds
     }
     this.loadCluster = this.loadCluster.bind(this)
     this.changeClusType = this.changeClusType.bind(this)
+    this.showChart = this.showChart.bind(this)
+    this.hideChart = this.hideChart.bind(this)
+    this.chooseMonth = this.chooseMonth.bind(this)
   }
 
   async componentDidMount(){
@@ -33,6 +41,7 @@ class MapView extends Component {
     const [latitude, longitude] = event.latlng 
       ? [event.latlng.lat, event.latlng.lng] // from map click handler
       : [event.latitude, event.longitude] // from window.localStorage
+    console.log('latlng pair for corners: ', latitude, longitude)
     await this.setState({ latitude, longitude })
     const { month } = this.state
     const { chooseCluster, kmeansClusters, monthClusters, clusterType } = this.props
@@ -42,7 +51,7 @@ class MapView extends Component {
         await this.setState({ center: [latitude, longitude], zoom: 6})
         break
       case 'month':
-        await chooseCluster(monthClusters, clusterType, month, null, null)
+        console.log('choosing month cluster', chooseCluster(monthClusters, clusterType, month, null, null))
         break
       default:
         return null
@@ -67,20 +76,42 @@ class MapView extends Component {
       }
     }
   }
+
+  showChart(){
+    this.setState({ showChart: true })
+  }
+
+  hideChart(){
+    this.setState({ showChart: false })
+  }
+
+  chooseMonth(month){
+    console.log(month)
+    this.setState({ month })
+  }
   
   render() {
-    const { center, zoom, latitude, longitude } = this.state
+    const { center, zoom, latitude, longitude, showChart, bounds, month } = this.state
     const { selectedCluster, clusterType } = this.props
     return (
       <div id="mapid">
-        <Navbar changeClusterType={this.changeClusType}/>
-        <Map 
-          style={{height: "100vh", width: "100%"}}
-          center={center}
-          zoom={zoom}
-          onclick={this.loadCluster}
-          id="actualMap"
-        > 
+        <Navbar
+          changeClusterType={this.changeClusType}
+          showChart={this.showChart}
+          showChartState={showChart}
+          hideChart={this.hideChart}
+          chooseMonth={this.chooseMonth}
+        />
+        { showChart 
+          ? <Chart latitude={latitude} longitude={longitude} clusterType={clusterType} month={month}/>
+          : <Map 
+              style={{height: "100vh", width: "100%"}}
+              center={center}
+              zoom={zoom}
+              onclick={this.loadCluster}
+              id="actualMap"
+              maxBounds={bounds}
+            > 
          
           <TileLayer  
             url="https://api.mapbox.com/styles/v1/ademsas/cjggt8ilb002k2rqw269apfqt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWRlbXNhcyIsImEiOiJjamdncThncmIwMGw4MnhxbWNybnV1cDMwIn0.DmUIWxfIPjHyD-nu9GVqrw"
@@ -105,6 +136,7 @@ class MapView extends Component {
 
          
         </Map>
+        }
       </div>
     )
   }
@@ -142,4 +174,4 @@ const mapDispatch = dispatch => ({
   }
 })
 
-export default connect(mapState, mapDispatch)(MapView)
+export default withRouter(connect(mapState, mapDispatch)(MapView))

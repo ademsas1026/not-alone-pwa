@@ -1,7 +1,6 @@
 import Leaflet from 'leaflet'
-// import 'alien-head.png'
-// import 'ufo-icon.png'
-// import 'error-alien.png'
+
+
 export const markerIcon = new Leaflet.Icon({
   iconUrl: 'images/ufo-icon.png', 
   iconSize: [38, 38], 
@@ -23,4 +22,7 @@ export const errorIcon = new Leaflet.Icon({
   popupAnchor: [-3, -76] //point from which the popup should open relative to the iconAnchor
 })
 
-export const latlng = (latitude, longitude) => new Leaflet.latLng(latitude, longitude)
+const corner1 = Leaflet.latLng(64.11419975101958, -177.09960937500003)
+const corner2 = Leaflet.latLng(13.042689780383594, -49.6142578125)
+export const bounds = Leaflet.latLngBounds(corner1, corner2)
+

@@ -1,5 +1,6 @@
 body {
   font-family: 'Karla', sans-serif;
+  background-color: #292929;
 }
 
 #mapid {
@@ -55,5 +56,13 @@ body {
 
 #popup {
   color: black;
+}
+
+
+.graph {
+  height: 40vh;
+  width: 40vw;
+  align-self: center;
+  display: flex;
 }
 

@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const getLocation = () => {
   // window.onload = () => {
     let startPos
@@ -10,7 +12,6 @@ export const getLocation = () => {
     }
     const geoSuccess = position => {
       startPos = position
-      console.log('startPos', startPos)
       window.localStorage.setItem('userLatitude', startPos.coords.latitude)
       window.localStorage.setItem('userLongitude', startPos.coords.longitude)
     }
@@ -23,4 +24,16 @@ export const getLocation = () => {
 
     console.log('getting user latitude: ', window.localStorage.getItem('userLatitude'))
   // }
+}
+
+export const reverseGeocode = async latlng => {
+  latlng = latlng.split(',')
+  let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}`
+  let { data } = await axios.get(url)
+  const firstAddress = data.results[0].address_components
+  let city = firstAddress.filter(addressComponents => addressComponents.types.includes("sublocality") || addressComponents.types.includes("locality"))
+  city = city[0] ? city[0].long_name : ''
+  let state = firstAddress.filter(addressComponents => addressComponents.types.includes("administrative_area_level_1"))
+  state = state[0] ? state[0].long_name : ''
+  return { city, state }
 }
