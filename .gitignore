@@ -21,3 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 
 src/secrets/firebase.config.js
+src/secrets/index.js
