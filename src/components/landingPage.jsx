@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import { Button } from '@material-ui/core'
 import Typist from 'react-typist'
 
+const styles = {
+  enter: {
+    color: 'rgb(157, 252, 5)'
+  }
+}
 export default class landingPage extends Component {
   constructor(){
     super()
@@ -19,15 +24,17 @@ export default class landingPage extends Component {
     const { enterSite } = this.props
     const { showDescription } = this.state
     return (
-      <div>
+      <div id="landingPage">
         <Typist
           onTypingDone={this.showDescription}
+          cursor={{ show: false }}
+          avgTypingDelay={100}
         >
-          We Are Not Alone
+          <h1 id="header">We Are Not Alone</h1>
         </Typist>
         { showDescription &&
           <div id="description">
-            <Button onClick={enterSite}>Enter</Button>
+            <Button onClick={enterSite} style={styles.enter}>Enter</Button>
           </div>
         }
         

@@ -1,0 +1,94 @@
+#landingPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+#landingPage .Typist #header {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  color: white;
+  font-size: 3em;
+  text-align: center;
+}
+
+body {
+  font-family: "Karla", sans-serif;
+  background-color: #292929;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#mapid {
+  display: flex;
+  flex-direction: column;
+  background-color: #292929;
+  font-family: "Karla", sans-serif;
+}
+
+#mapid img {
+  margin-top: 20vh;
+}
+
+#actualMap {
+  display: flex;
+  flex-direction: column;
+  color: aliceblue;
+  font-family: "Karla", sans-serif;
+}
+
+#actualMap h1 {
+  width: 150%;
+  padding-top: 1em;
+  padding-left: 2.1em;
+}
+
+#actualMap h2 {
+  width: 150%;
+  padding-left: 2.5em;
+}
+
+#actualMap h3 {
+  width: 150%;
+  padding-left: 3em;
+}
+
+#navbar {
+  display: flex;
+  justify-content: space-around;
+  height: 20vh;
+  border-bottom: 0.1em solid white;
+}
+
+#mapHeader {
+  position: absolute;
+  z-index: 1000;
+  align-self: center;
+  justify-self: center;
+}
+
+#navButtons {
+  align-self: center;
+  justify-self: flex-start;
+}
+
+#popup {
+  color: black;
+}
+
+.graph {
+  height: 100vh;
+  width: 100vw;
+  align-self: center;
+  display: flex;
+}
+
+.chartHeader {
+  display: flex;
+}
+
+/*# sourceMappingURL=index.css.map */
