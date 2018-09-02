@@ -2,22 +2,21 @@
 body {
   font-family: 'Karla', sans-serif;
   background-color: #292929;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: center;
 }
 
 #mapid {
-  // height: 100%;
-  // width: 25%;
   display: flex;
   flex-direction: column;
   background-color: #292929;
   font-family: 'Karla', sans-serif;
 }
-#mapid img {
-  margin-top: 20vh;
+#mapid #loading {
+  margin: 20vh 0 0 35vw;
+  width: 25%;
 }
 #actualMap {
   display: flex;
